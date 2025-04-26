@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -66,6 +67,29 @@ public class StudentResource{
         student.setId(id);
         studentStore.put(id, student);
         return Response.status(Response.Status.CREATED).build();
+    }
+    
+    
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response updateStudent(@PathParam("id") String id, Student updatedStudent){
+        if (studentStore.containsKey(id)) {
+            Student student=studentStore.get(id);
+            if (updatedStudent.getFirstName()!= null) {
+                student.setFirstName(updatedStudent.getFirstName());
+            }
+            if (updatedStudent.getLastName()!=null) {
+                student.setLastName(updatedStudent.getLastName());
+            }
+            
+            studentStore.put(id, student);
+            return Response.ok(student).build();
+        }
+        else{
+            return Response.status(Response.Status.NOT_FOUND).entity("Student with id " + id + " not found").build();
+        }
     }
     
 }
