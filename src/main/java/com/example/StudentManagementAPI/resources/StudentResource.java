@@ -4,9 +4,14 @@
  */
 package com.example.StudentManagementAPI.resources;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 @Path("/students")
 public class StudentResource{
@@ -26,4 +31,12 @@ public class StudentResource{
         studentStore.put(student2.getId(), student2);
         studentStore.put(student3.getId(), student3);
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Student> getAllStudents(){
+        return new ArrayList<>(studentStore.values()); 
+    }
+    
+    
 }
