@@ -10,8 +10,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/students")
 public class StudentResource{
@@ -38,5 +40,17 @@ public class StudentResource{
         return new ArrayList<>(studentStore.values()); 
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response getStudentById(@PathParam("id")String id){
+        Student student=studentStore.get(id);
+        if (student != null) {
+            return Response.ok(student).build();
+        }
+        else{
+            return Response.status(Response.Status.NOT_FOUND).entity("Student with "+id+" not found").build();
+        }
+    }
     
 }
