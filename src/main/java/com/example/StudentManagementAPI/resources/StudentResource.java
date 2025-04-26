@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -91,5 +92,18 @@ public class StudentResource{
             return Response.status(Response.Status.NOT_FOUND).entity("Student with id " + id + " not found").build();
         }
     }
+    
+    @DELETE
+    @Path("/{id}")
+    public Response deleteStudent(@PathParam("id") String id){
+        if (studentStore.remove(id)!=null) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        
+        else {
+            return Response.status(Response.Status.NOT_FOUND).entity("Student with ID " + id + " not found").build();
+        }
+    }
+    
     
 }
